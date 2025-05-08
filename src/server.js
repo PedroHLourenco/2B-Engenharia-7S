@@ -1,13 +1,27 @@
 const express = require("express");
+const cors = require("cors");
+const config = require("./config/config");
+const connectDB = require("./config/database");
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+
+connectDB();
 
 app.get("/", (req, res) => {
   res.json({ message: "Bem-vindo à API de Gerenciamento de Tarefas!" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: "Erro interno do servidor",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined,
+  });
+});
+
+app.listen(config.port, () => {
+  console.log(`Servidor rodando na porta ${config.port}`);
 });
