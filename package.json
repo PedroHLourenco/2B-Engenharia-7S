@@ -1,0 +1,19 @@
+{
+  "name": "todo-list-api",
+  "version": "1.0.0",
+  "description": "API REST para gerenciamento de tarefas",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "todo-list",
+    "tasks"
+  ],
+  "author": "",
+  "license": "ISC"
+}
