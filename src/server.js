@@ -3,6 +3,7 @@ const cors = require("cors");
 const config = require("./config/config");
 const connectDB = require("./config/database");
 const taskRoutes = require("./routes/taskRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -11,6 +12,10 @@ app.use(express.json());
 
 connectDB();
 
+// Rotas de autenticação
+app.use("/api/auth", authRoutes);
+
+// Rotas de tarefas
 app.use("/api", taskRoutes);
 
 app.get("/", (req, res) => {
