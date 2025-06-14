@@ -32,6 +32,36 @@ class TaskService {
       throw new Error(`Erro ao buscar tarefa: ${error.message}`);
     }
   }
+
+  // Atualizar uma tarefa
+  async updateTask(id, taskData) {
+    try {
+      const task = await Task.findByIdAndUpdate(
+        id,
+        { ...taskData, updatedAt: Date.now() },
+        { new: true, runValidators: true }
+      );
+      if (!task) {
+        throw new Error("Tarefa não encontrada");
+      }
+      return task;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar tarefa: ${error.message}`);
+    }
+  }
+
+  // Excluir uma tarefa
+  async deleteTask(id) {
+    try {
+      const task = await Task.findByIdAndDelete(id);
+      if (!task) {
+        throw new Error("Tarefa não encontrada");
+      }
+      return { message: "Tarefa excluída com sucesso" };
+    } catch (error) {
+      throw new Error(`Erro ao excluir tarefa: ${error.message}`);
+    }
+  }
 }
 
 module.exports = new TaskService();
