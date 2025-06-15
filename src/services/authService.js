@@ -16,21 +16,61 @@ class AuthService {
     );
   }
 
-  // Registrar novo usuário
-  async register(userData) {
+  // Registrar novo usuário comum
+  async registerUser(userData) {
     try {
+      // Verificar se o email já existe
       const existingUser = await User.findOne({ email: userData.email });
       if (existingUser) {
         throw new Error("Email já cadastrado");
       }
 
-      const user = new User(userData);
-      await user.save();
+      // Criar usuário com role user
+      const user = await User.createUser({
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        role: "user",
+      });
+
+      // Verificar se o role foi definido corretamente
+      if (user.role !== "user") {
+        throw new Error("Erro ao definir role do usuário");
+      }
 
       const token = this.generateToken(user);
       return { user, token };
     } catch (error) {
       throw new Error(`Erro ao registrar usuário: ${error.message}`);
+    }
+  }
+
+  // Registrar novo administrador
+  async registerAdmin(userData) {
+    try {
+      // Verificar se o email já existe
+      const existingUser = await User.findOne({ email: userData.email });
+      if (existingUser) {
+        throw new Error("Email já cadastrado");
+      }
+
+      // Criar usuário com role admin
+      const user = await User.createUser({
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        role: "admin",
+      });
+
+      // Verificar se o role foi definido corretamente
+      if (user.role !== "admin") {
+        throw new Error("Erro ao definir role do administrador");
+      }
+
+      const token = this.generateToken(user);
+      return { user, token };
+    } catch (error) {
+      throw new Error(`Erro ao registrar administrador: ${error.message}`);
     }
   }
 

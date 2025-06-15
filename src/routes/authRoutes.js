@@ -6,7 +6,7 @@ const authController = require("../controllers/authController");
 router.post("/register", authController.register);
 
 // Rota para registro de administrador
-router.post("/register/admin", authController.register);
+router.post("/register/admin", authController.registerAdmin);
 
 // Rota para login
 router.post("/login", authController.login);
